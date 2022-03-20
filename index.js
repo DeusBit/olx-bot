@@ -55,10 +55,10 @@ tBot.start((ctx) => {
         if (!users.has(chatId)) {
             users.add(chatId);
             logger.log('info', 'New user: ' + ctx.message.chat.id + ' ' + ctx.message.from.first_name + ' ' + ctx.message.from.last_name);
-            ctx.telegram.sendMessage(chatId, 'Я буду слать тебе новые сообщения.');
+            ctx.telegram.sendMessage(chatId, 'Я буду надсилати тобі нові оголошення. Слава Україні🇺🇦🇺🇦🇺🇦');
         }
     }
-    tBot.telegram.sendMessage(chatId, 'Я живой.');
+    tBot.telegram.sendMessage(chatId, 'Слава Україні🇺🇦🇺🇦🇺🇦');
 });
 
 tBot.on('text', (ctx) => {
@@ -67,7 +67,7 @@ tBot.on('text', (ctx) => {
     if (ctx.message.from.username === adminUserName && ctx.message.text && ctx.message.text > 100) {
         updateCookie(ctx.message.text);
     }
-    tBot.telegram.sendMessage(chatId, 'Я живой.');
+    tBot.telegram.sendMessage(chatId, 'Слава Україні🇺🇦🇺🇦🇺🇦');
 });
 
 tBot.command('quit', (ctx) => {
