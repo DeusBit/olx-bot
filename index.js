@@ -44,7 +44,6 @@ function loadInitData() {
     users.add(280668356);
     users.add(691885568);
     usedCookie = fs.readFileSync('./cookie.txt', 'utf-8');
-    console.log(usedCookie);
 }
 
 loadInitData();
