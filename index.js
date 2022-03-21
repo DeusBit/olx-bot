@@ -104,13 +104,16 @@ function notifyUsers(offer) {
 function loadData(cookie) {
     const configPrivate = getConfigPrivate(cookie);
 
-    sendRequest(configPrivate);
+    sendRequest(configPrivate)
+        .then(function() {
+            logger.log('debug', "Private success check");
+        });
 
     const configBuss = getConfigBusiness(cookie);
 
     sendRequest(configBuss)
         .then(function() {
-            logger.log('debug', "Success check");
+            logger.log('debug', "Business success check");
         });
 }
 
