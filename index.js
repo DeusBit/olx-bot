@@ -108,16 +108,18 @@ function loadData(cookie) {
 
     const configBuss = getConfigBusiness(cookie);
 
-    sendRequest(configBuss);
+    sendRequest(configBuss)
+        .then(function() {
+            logger.log('debug', "Success check");
+        });
 }
 
 function sendRequest(config) {
-    axios(config)
+    return axios(config)
         .then((response) => {
             const body = response.data;
             var $ = cheerio.load(body);
             if ($('.offer-wrapper').length > 0) {
-                logger.log('debug', "checking");
                 const result = [];
                 $(".offer-wrapper").each(function (i, elem) {
                     let $element = $(elem);
@@ -146,7 +148,6 @@ function sendRequest(config) {
                         }
                     });
                 }
-                logger.log('debug', "done");
             } else {
                 logger.log('error', 'Response is empty');
             }
