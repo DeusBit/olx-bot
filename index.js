@@ -64,7 +64,7 @@ tBot.start((ctx) => {
 tBot.on('text', (ctx) => {
     const chatId = ctx.message.chat.id;
 
-    if (ctx.message.from.username === adminUserName && ctx.message.text && ctx.message.text > 100) {
+    if (ctx.message.from.username === adminUserName && ctx.message.text && ctx.message.text.length > 100) {
         updateCookie(ctx.message.text);
     }
     tBot.telegram.sendMessage(chatId, 'Слава Україні🇺🇦🇺🇦🇺🇦');
