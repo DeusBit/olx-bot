@@ -92,7 +92,7 @@ setInterval(() => {
     } else {
         logger.log('error', 'Cookie is empty');
     }
-}, 1000 * 60);
+}, 1000 * 30);
 
 function notifyUsers(offer) {
     for (let chat of users) {
