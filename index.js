@@ -218,4 +218,4 @@ function getConfigBusiness(cookie) {
 
 }
 
-// tBot.launch();
+tBot.launch();
