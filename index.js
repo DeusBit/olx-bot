@@ -39,18 +39,24 @@ const logger = winston.createLogger({
 });
 
 function loadInitData() {
-    fs.readFileSync('./offers.txt', 'utf-8')
+    readNumberData('./offers.txt').forEach(function (val) {
+        oldOffers.add(val);
+    });
+
+    readNumberData('./users.txt').forEach((val) => {
+        users.add(val);
+    });
+
+    usedCookie = fs.readFileSync('./cookie.txt', 'utf-8').trim();
+}
+
+function readNumberData(file) {
+    return fs.readFileSync(file, 'utf-8')
         .split('\n')
         .filter(Boolean)
         .map(function (val) {
             return +val;
-        }).forEach(function (val) {
-        oldOffers.add(val);
-    });
-    users.add(333396389);
-    users.add(280668356);
-    users.add(691885568);
-    usedCookie = fs.readFileSync('./cookie.txt', 'utf-8').trim();
+        });
 }
 
 loadInitData();
