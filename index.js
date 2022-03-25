@@ -6,7 +6,14 @@ const winston = require('winston');
 
 
 // replace the value below with the Telegram token you receive from @BotFather
-const token = '';
+const token = (() => {
+    let _token = fs.readFileSync('./token.txt', 'utf-8');
+    if (_token) {
+        return _token.trim();
+    } else {
+        return '';
+    }
+})();
 
 let usedCookie = '';
 const adminUserName = 'aretiznyk';
@@ -43,7 +50,7 @@ function loadInitData() {
     users.add(333396389);
     users.add(280668356);
     users.add(691885568);
-    usedCookie = fs.readFileSync('./cookie.txt', 'utf-8');
+    usedCookie = fs.readFileSync('./cookie.txt', 'utf-8').trim();
 }
 
 loadInitData();
@@ -180,7 +187,7 @@ function getConfigPrivate(cookie) {
             'sec-fetch-dest': 'document',
             'referer': 'https://www.olx.ua/',
             'accept-language': 'en-US,en;q=0.9',
-            'cookie': 'newrelic_cdn_name=CF; PHPSESSID=7u3o46j8227bq4cj1vph7hvm65; mobile_default=desktop; last_locations=132-0-0-%D0%98%D0%B2%D0%B0%D0%BD%D0%BE-%D0%A4%D1%80%D0%B0%D0%BD%D0%BA%D0%BE%D0%B2%D1%81%D0%BA-%D0%98%D0%B2%D0%B0%D0%BD%D0%BE-%D0%A4%D1%80%D0%B0%D0%BD%D0%BA%D0%BE%D0%B2%D1%81%D0%BA%D0%B0%D1%8F+%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82%D1%8C-ivano%3Afrankovsk; my_city_2=132_0_0_%D0%98%D0%B2%D0%B0%D0%BD%D0%BE-%D0%A4%D1%80%D0%B0%D0%BD%D0%BA%D0%BE%D0%B2%D1%81%D0%BA_0_%D0%98%D0%B2%D0%B0%D0%BD%D0%BE-%D0%A4%D1%80%D0%B0%D0%BD%D0%BA%D0%BE%D0%B2%D1%81%D0%BA%D0%B0%D1%8F+%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82%D1%8C_ivano%3Afrankovsk; observed_aui=68db7bbbf22d4aba88df0712af25e0d8; user_adblock_status=false; ldTd=true; lqstatus=1647796707||||; laquesis=jobs-2491@a#jobs-3312@a#oesx-1292@a#olxeu-37785@a#srt-1549@b; laquesisff=euonb-114#euonb-48#kuna-307#oesx-1437#oesx-645#oesx-867#olxeu-29763#srt-1289#srt-1346#srt-1593#srt-477#srt-479#srt-682; laquesissu=; fingerprint=MTI1NzY4MzI5MTsxNjswOzA7MDsxOzA7MDswOzA7MDsxOzE7MTsxOzE7MTsxOzE7MTsxOzE7MTsxOzE7MDsxOzE7MTsxOzA7MDswOzA7MDswOzE7MTsxOzE7MTswOzE7MDswOzE7MTsxOzA7MDswOzA7MDswOzA7MDsxOzA7MDswOzA7MTsxOzA7MTsxOzA7MTsxOzE7MTswOzE7MDsxNDIzNTg4Mzg3OzI7MjsyOzI7MjsyOzU7Mjg0ODAwNjQxODsxMzU3MDQxNzM4OzE7MTsxOzE7MTsxOzE7MTsxOzE7MTsxOzE7MTsxOzE7MTswOzA7MDs0MTAwMjE5OTszNDY5MzA2NTUxOzMyNjY0MDc4NDA7MzMwODM4ODQxOzM5NTU0NDg2OTM7MTc5MjsxMTIwOzMwOzMwOzE4MDsxMjA7MTgwOzEyMDsxODA7MTIwOzE4MDsxMjA7MTgwOzEyMDsxODA7MTIwOzE4MDsxMjA7MTgwOzEyMDsxODA7MTIwOzE4MDsxMjA7MDswOzA=; dfp_user_id=fc6e6cd7-ddd5-487a-94fc-b70831f810af-ver2; from_detail=0; __gads=ID=1c83838b070eb435:T=1647795509:S=ALNI_Ma7zR-bQrXungjBOyrtSMJX8IOvcg; __utma=250720985.1615420089.1647795510.1647795510.1647795510.1; __utmc=250720985; __utmz=250720985.1647795510.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); _hjFirstSeen=1; _hjIncludedInSessionSample=0; _hjSession_2218922=eyJpZCI6IjJhZDQzMjZkLWMzZTgtNGM0OC1iNTAxLTc3YThlNWVhMzU0MSIsImNyZWF0ZWQiOjE2NDc3OTU1MDk4OTUsImluU2FtcGxlIjpmYWxzZX0=; _hjAbsoluteSessionInProgress=0; _gid=GA1.2.873039356.1647795510; dfp_segment=%5B%5D; lister_lifecycle=1647795519; _hjSessionUser_2218922=eyJpZCI6Ijk5OGEwNzAwLTczZGUtNTlkZS04YTViLTc0NjAzNjUwN2VlZSIsImNyZWF0ZWQiOjE2NDc3OTU1MDY1MjgsImV4aXN0aW5nIjp0cnVlfQ==; searchFavTooltip=1; _ga=GA1.1.1099172220.1647795509; cto_bundle=zkruzF8zV3Y4aTZYbjM2Wm81SHBUWGJOejRHQVhmNjZiVnVYSDRwZTViMzZOMFZsTjRtJTJCTHFPUm93ZUFJQndyZDJBalMlMkJISHB4OG93VFd2Ujc5bmpaSGIxSE1mSFJMeHUyd2I2bEpRS2FPaER3WVRHY0xaZlRTZlFNdWoxbVppUEJXVXFrYkMzZkhMRnU5ZkglMkZ0b25CNkhGdzVSUFNlTGs3d0Fva3FRd1FVZ0NWalZyZHBuVHUxTTRweHM2NGV6ZmJmYUI; search_id_md5=4324739dd5612e37685d78c57c649552; onap=17fa8440e33x3641b2b4-1-17fa8440e33x3641b2b4-79-1647797793; __utmb=250720985.27.9.1647795992289; _ga_QFCVKCHXET=GS1.1.1647795509.1.1.1647795993.38; last_locations=132-0-0-%D0%98%D0%B2%D0%B0%D0%BD%D0%BE-%D0%A4%D1%80%D0%B0%D0%BD%D0%BA%D0%BE%D0%B2%D1%81%D0%BA-%D0%98%D0%B2%D0%B0%D0%BD%D0%BE-%D0%A4%D1%80%D0%B0%D0%BD%D0%BA%D0%BE%D0%B2%D1%81%D0%BA%D0%B0%D1%8F+%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82%D1%8C-ivano%3Afrankovsk; lister_lifecycle=1641153890; mobile_default=desktop; my_city_2=132_0_0_%D0%98%D0%B2%D0%B0%D0%BD%D0%BE-%D0%A4%D1%80%D0%B0%D0%BD%D0%BA%D0%BE%D0%B2%D1%81%D0%BA_0_%D0%98%D0%B2%D0%B0%D0%BD%D0%BE-%D0%A4%D1%80%D0%B0%D0%BD%D0%BA%D0%BE%D0%B2%D1%81%D0%BA%D0%B0%D1%8F+%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82%D1%8C_ivano%3Afrankovsk; observed_aui=84cd8712c6ff46ce8885ddc919433ede'
+            'cookie': cookie
         }
     };
 }
@@ -205,10 +212,10 @@ function getConfigBusiness(cookie) {
             'sec-fetch-dest': 'document',
             'referer': 'https://www.olx.ua/',
             'accept-language': 'en-US,en;q=0.9',
-            'cookie': 'newrelic_cdn_name=CF; PHPSESSID=7u3o46j8227bq4cj1vph7hvm65; mobile_default=desktop; last_locations=132-0-0-%D0%98%D0%B2%D0%B0%D0%BD%D0%BE-%D0%A4%D1%80%D0%B0%D0%BD%D0%BA%D0%BE%D0%B2%D1%81%D0%BA-%D0%98%D0%B2%D0%B0%D0%BD%D0%BE-%D0%A4%D1%80%D0%B0%D0%BD%D0%BA%D0%BE%D0%B2%D1%81%D0%BA%D0%B0%D1%8F+%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82%D1%8C-ivano%3Afrankovsk; my_city_2=132_0_0_%D0%98%D0%B2%D0%B0%D0%BD%D0%BE-%D0%A4%D1%80%D0%B0%D0%BD%D0%BA%D0%BE%D0%B2%D1%81%D0%BA_0_%D0%98%D0%B2%D0%B0%D0%BD%D0%BE-%D0%A4%D1%80%D0%B0%D0%BD%D0%BA%D0%BE%D0%B2%D1%81%D0%BA%D0%B0%D1%8F+%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82%D1%8C_ivano%3Afrankovsk; observed_aui=68db7bbbf22d4aba88df0712af25e0d8; user_adblock_status=false; ldTd=true; lqstatus=1647796707||||; laquesis=jobs-2491@a#jobs-3312@a#oesx-1292@a#olxeu-37785@a#srt-1549@b; laquesisff=euonb-114#euonb-48#kuna-307#oesx-1437#oesx-645#oesx-867#olxeu-29763#srt-1289#srt-1346#srt-1593#srt-477#srt-479#srt-682; laquesissu=; fingerprint=MTI1NzY4MzI5MTsxNjswOzA7MDsxOzA7MDswOzA7MDsxOzE7MTsxOzE7MTsxOzE7MTsxOzE7MTsxOzE7MDsxOzE7MTsxOzA7MDswOzA7MDswOzE7MTsxOzE7MTswOzE7MDswOzE7MTsxOzA7MDswOzA7MDswOzA7MDsxOzA7MDswOzA7MTsxOzA7MTsxOzA7MTsxOzE7MTswOzE7MDsxNDIzNTg4Mzg3OzI7MjsyOzI7MjsyOzU7Mjg0ODAwNjQxODsxMzU3MDQxNzM4OzE7MTsxOzE7MTsxOzE7MTsxOzE7MTsxOzE7MTsxOzE7MTswOzA7MDs0MTAwMjE5OTszNDY5MzA2NTUxOzMyNjY0MDc4NDA7MzMwODM4ODQxOzM5NTU0NDg2OTM7MTc5MjsxMTIwOzMwOzMwOzE4MDsxMjA7MTgwOzEyMDsxODA7MTIwOzE4MDsxMjA7MTgwOzEyMDsxODA7MTIwOzE4MDsxMjA7MTgwOzEyMDsxODA7MTIwOzE4MDsxMjA7MDswOzA=; dfp_user_id=fc6e6cd7-ddd5-487a-94fc-b70831f810af-ver2; from_detail=0; __gads=ID=1c83838b070eb435:T=1647795509:S=ALNI_Ma7zR-bQrXungjBOyrtSMJX8IOvcg; __utma=250720985.1615420089.1647795510.1647795510.1647795510.1; __utmc=250720985; __utmz=250720985.1647795510.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); _hjFirstSeen=1; _hjIncludedInSessionSample=0; _hjSession_2218922=eyJpZCI6IjJhZDQzMjZkLWMzZTgtNGM0OC1iNTAxLTc3YThlNWVhMzU0MSIsImNyZWF0ZWQiOjE2NDc3OTU1MDk4OTUsImluU2FtcGxlIjpmYWxzZX0=; _hjAbsoluteSessionInProgress=0; _gid=GA1.2.873039356.1647795510; dfp_segment=%5B%5D; lister_lifecycle=1647795519; _hjSessionUser_2218922=eyJpZCI6Ijk5OGEwNzAwLTczZGUtNTlkZS04YTViLTc0NjAzNjUwN2VlZSIsImNyZWF0ZWQiOjE2NDc3OTU1MDY1MjgsImV4aXN0aW5nIjp0cnVlfQ==; searchFavTooltip=1; _ga=GA1.1.1099172220.1647795509; cto_bundle=zkruzF8zV3Y4aTZYbjM2Wm81SHBUWGJOejRHQVhmNjZiVnVYSDRwZTViMzZOMFZsTjRtJTJCTHFPUm93ZUFJQndyZDJBalMlMkJISHB4OG93VFd2Ujc5bmpaSGIxSE1mSFJMeHUyd2I2bEpRS2FPaER3WVRHY0xaZlRTZlFNdWoxbVppUEJXVXFrYkMzZkhMRnU5ZkglMkZ0b25CNkhGdzVSUFNlTGs3d0Fva3FRd1FVZ0NWalZyZHBuVHUxTTRweHM2NGV6ZmJmYUI; search_id_md5=4324739dd5612e37685d78c57c649552; onap=17fa8440e33x3641b2b4-1-17fa8440e33x3641b2b4-79-1647797793; __utmb=250720985.27.9.1647795992289; _ga_QFCVKCHXET=GS1.1.1647795509.1.1.1647795993.38; last_locations=132-0-0-%D0%98%D0%B2%D0%B0%D0%BD%D0%BE-%D0%A4%D1%80%D0%B0%D0%BD%D0%BA%D0%BE%D0%B2%D1%81%D0%BA-%D0%98%D0%B2%D0%B0%D0%BD%D0%BE-%D0%A4%D1%80%D0%B0%D0%BD%D0%BA%D0%BE%D0%B2%D1%81%D0%BA%D0%B0%D1%8F+%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82%D1%8C-ivano%3Afrankovsk; lister_lifecycle=1641153890; mobile_default=desktop; my_city_2=132_0_0_%D0%98%D0%B2%D0%B0%D0%BD%D0%BE-%D0%A4%D1%80%D0%B0%D0%BD%D0%BA%D0%BE%D0%B2%D1%81%D0%BA_0_%D0%98%D0%B2%D0%B0%D0%BD%D0%BE-%D0%A4%D1%80%D0%B0%D0%BD%D0%BA%D0%BE%D0%B2%D1%81%D0%BA%D0%B0%D1%8F+%D0%BE%D0%B1%D0%BB%D0%B0%D1%81%D1%82%D1%8C_ivano%3Afrankovsk; observed_aui=84cd8712c6ff46ce8885ddc919433ede'
+            'cookie': cookie
         }
     };
 
 }
 
-tBot.launch();
+// tBot.launch();
