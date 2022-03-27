@@ -50,12 +50,10 @@ db.loadData().then(() => {
 
     tBot.command('quit', (ctx) => {
         // Explicit usage
-        ctx.telegram.leaveChat(ctx.message.chat.id);
-
-        db.removeUser(ctx.message.chat.id);
-
-        // Using context shortcut
-        ctx.leaveChat();
+        ctx.telegram.leaveChat(ctx.message.chat.id).then(() => {
+            db.removeUser(ctx.message.chat.id).then(r => logger.log('debug', `User ${ctx.message.chat.id} left bot`));
+            ctx.leaveChat();
+        });
     });
 
 
@@ -78,7 +76,7 @@ db.loadData().then(() => {
 
         if (result.length !== 0) {
             result.forEach((val) => {
-                if(!db.hasOffer(val.id)) {
+                if (!db.hasOffer(val.id)) {
                     db.addOffer(val.id);
                     notifyUsers(val);
                 }

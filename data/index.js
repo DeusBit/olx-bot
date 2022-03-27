@@ -1,4 +1,5 @@
 import { JSONFile, Low } from "lowdb";
+import logger from "../logger/index.js";
 
 const adapter = new JSONFile('./db.json');
 const db = new Low(adapter);
@@ -12,9 +13,9 @@ export function hasUser(chatId) {
     return db.data.users.indexOf(chatId) !== -1;
 }
 
-export async function addUser(chatId) {
+export function addUser(chatId) {
     db.data.users.push(chatId);
-    await db.write();
+    db.write().then(() => logger.log('debug', `New chat ${chatId}`));
 }
 
 export function getUsers() {
@@ -22,9 +23,9 @@ export function getUsers() {
 }
 
 export async function removeUser(chatId) {
-    let index = db.users.indexOf(chatId);
+    let index = db.data.users.indexOf(chatId);
     if (index !== -1) {
-        db.users.splice(index, 1);
+        db.data.users.splice(index, 1);
         await db.write();
     }
 }
@@ -39,9 +40,9 @@ export async function addOffer(offerId) {
 }
 
 export async function removeOffer(offerId) {
-    let index = db.offers.indexOf(offerId);
+    let index = db.data.offers.indexOf(offerId);
     if (index !== -1) {
-        db.offers.splice(index, 1);
+        db.data.offers.splice(index, 1);
         await db.write();
     }
 }
