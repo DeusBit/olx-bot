@@ -39,6 +39,18 @@ db.loadData().then(() => {
         }
     });
 
+    tBot.command('stop', (ctx) => {
+        const chatId = ctx.message.chat.id;
+
+        if (chatId === adminChatId) {
+            db.removeUser(chatId).then(() => {
+                ctx.telegram.sendMessage(chatId, 'Я не буду надсилати тобі нові оголошення. Слава Україні🇺🇦🇺🇦🇺🇦');
+            });
+        } else {
+            ctx.reply('Слава Україні🇺🇦🇺🇦🇺🇦');
+        }
+    })
+
     tBot.on('text', (ctx) => {
         const chatId = ctx.message.chat.id;
 
