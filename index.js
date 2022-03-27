@@ -85,12 +85,13 @@ db.loadData().then(() => {
 
     async function loadData(cookie) {
         let result = await loader.sendRequest(cookie);
-
+        logger.log('debug', 'Success load: ' + !!result.length);
         if (result.length !== 0) {
             result.forEach((val) => {
                 if (!db.hasOffer(val.id)) {
                     db.addOffer(val.id);
                     notifyUsers(val);
+                    logger.log('debug', 'New offer: ' + val.id);
                 }
             })
         } else {
@@ -105,5 +106,4 @@ db.loadData().then(() => {
     }
 
     tBot.launch();
-//stop
 });
