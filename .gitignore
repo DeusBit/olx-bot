@@ -1,10 +1,9 @@
-*.log
 .idea
 package-lock.json
 node_modules
 ssh-*
-token.txt
+data/token.txt
 *.zip
-users.txt
+data/users.txt
 *-copy.txt
-offers.txt
+data/offers.txt
