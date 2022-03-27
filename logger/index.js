@@ -9,9 +9,9 @@ let logger =  winston.createLogger({
         winston.format.simple()
     ),
     transports: [
-        new winston.transports.File({filename: 'logs/debug.log', level: 'debug'}),
-        new winston.transports.File({filename: 'logs/error.log', level: 'error'}),
-        new winston.transports.File({filename: 'logs/combined.log'}),
+        new winston.transports.File({filename: process.cwd() + '/logs/debug.log', level: 'debug'}),
+        new winston.transports.File({filename: process.cwd() + '/logs/error.log', level: 'error'}),
+        new winston.transports.File({filename: process.cwd() + '/logs/combined.log'}),
     ],
 });
 
