@@ -7,3 +7,5 @@ data/token.txt
 data/users.txt
 *-copy.txt
 data/offers.txt
+*-remote*
+db.json

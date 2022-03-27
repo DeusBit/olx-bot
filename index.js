@@ -23,11 +23,9 @@ db.loadData().then(() => {
 
     const tBot = new Telegraf(token);
 
-    function loadInitData() {
+    (function loadInitData() {
         usedCookie = fs.readFileSync('./data/cookie.txt', 'utf-8').trim();
-    }
-
-    loadInitData();
+    })();
 
     tBot.start((ctx) => {
         const chatId = ctx.message.chat.id;
@@ -36,6 +34,8 @@ db.loadData().then(() => {
             db.addUser(chatId);
             logger.log('info', 'New user: ' + ctx.message.chat.id + ' ' + ctx.message.from.first_name + ' ' + ctx.message.from.last_name);
             ctx.telegram.sendMessage(chatId, 'Я буду надсилати тобі нові оголошення. Слава Україні🇺🇦🇺🇦🇺🇦');
+        } else {
+            ctx.reply('Слава Україні🇺🇦🇺🇦🇺🇦');
         }
     });
 
